@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils'
-import { CallControls, CallParticipantsList, CallStatsButton, PaginatedGridLayout, SpeakerLayout } from '@stream-io/video-react-sdk'
+import { CallControls, CallParticipantsList, CallStatsButton, CallingState, PaginatedGridLayout, SpeakerLayout, useCallStateHooks } from '@stream-io/video-react-sdk'
 import React, { useState } from 'react'
 
 import {
@@ -11,6 +11,9 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { LayoutList, Users } from 'lucide-react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import EndCallButton from './EndCallButton'
+import Loader from './Loader'
 
 
 type CallLayoutType = 'grid' | 'speaker-left' | 'speaker-right'
@@ -35,7 +38,16 @@ const MeetingRoom = () => {
     }
 
     const [showParticpants, setShowParticipants] = useState(false)
+    const searchParams = useSearchParams();
+    const isPersonalRoom = !!searchParams.get('personal')
 
+    const { useCallCallingState } = useCallStateHooks();
+
+    const callingState = useCallCallingState();
+
+    const router = useRouter();
+
+    if (callingState !== CallingState.JOINED) return <Loader />
     return (
         <section className='relative h-screen w-full
     overflow-hidden pt-4 text-white'>
@@ -54,8 +66,8 @@ const MeetingRoom = () => {
                 </div>
             </div>
             <div className='fixed bottom-0 flex w-full items-center
-    justify-center gap-5'>
-                <CallControls />
+    justify-center gap-5 flex-wrap'>
+                <CallControls onLeave={() => router.push(`/`)} />
 
                 <DropdownMenu>
 
@@ -94,12 +106,12 @@ const MeetingRoom = () => {
                 <button onClick={() => setShowParticipants
                     ((prev) => !prev)
                 }>
-                    <div className='cursor-pointer rounded
+                    <div className='cursor-pointer rounded-2xl
                     bg-[#1a2128] px-4 py-2 hover: bg-[#4c535b]'>
                         <Users size={20} className='text-white'></Users>
                     </div>
                 </button>
-
+                    {!isPersonalRoom && <EndCallButton />}
             </div>
         </section>
     )
