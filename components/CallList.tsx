@@ -1,6 +1,7 @@
+// @ts-nocheck
+
 'use client'
 
-// @ts-nocheck
 
 import { useGetCalls } from '@/hooks/useGetCalls'
 import { Call, CallRecording } from '@stream-io/video-react-sdk'
@@ -83,7 +84,7 @@ const CallList = ({ type }: {type: 'ended' | 'upcoming' |
                         : 'icons/recordings.svg'
                     }
                     title={(meeting as Call).state?.custom?.description?.substring
-                        (0, 30) || meeting?.filename?.substring(0, 30) || 'Personal Conference Room'
+                        (0, 30) || 'Personal Conference Room'
                     }
                     date={meeting.state?.startsAt.toLocaleString()
                         || meeting.start_time.toLocaleString()
