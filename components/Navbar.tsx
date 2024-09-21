@@ -13,7 +13,7 @@ const Navbar = () => {
       <Link href='/' className='flex items-center gap-1'>
 
         <Image
-          src='/icons/logo.svg'
+          src='/icons/confers-logo.jpg'
           width={32}
           height={32}
           alt='ConfersApp Logo'

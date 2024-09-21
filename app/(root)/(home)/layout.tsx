@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: "ConfersApp",
   description: "Virtual Conferencing App",
   icons: {
-    icon: '/icons/logo.svg'
+    icon: '/icons/confers-logo-icon.png'
   }
 };
 
